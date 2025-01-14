@@ -56,7 +56,8 @@ To start the server:
 ![image](https://github.com/user-attachments/assets/314306ac-1bbb-499e-a4b6-8cdc8e5c8d8b)
 
 
-![image](https://github.com/user-attachments/assets/926b5eae-d580-45bb-8a49-a68b1026a7cb)
+![image](https://github.com/user-attachments/assets/36995268-d1ea-4a39-a141-697a08a4bdf1)
+
 
 
 NOT IN PRODUCTION
