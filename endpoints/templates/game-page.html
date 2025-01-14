@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<html>
+    <div class="container border border-light" style="height: 100vh">
+        <div class="row justify-content-center pt-5 pl-3">
+
+            <div class="col-md-5 " style="height: 25vh">
+                <!-- Game Image -->
+                <div class="row">
+                    <img class="img-fluid" src="../static/placeholder.png" style="height: 375px">
+                </div>
+
+                <!-- Shops -->
+                <div class="row p-2">
+                    <b class="fw-bold h4 p-3">Avalable at:</b>
+                    {% if game.steam_store %}
+                    <a href="https://store.steampowered.com/app/{{ game.steam_id }}">
+                        <img src="../static/steam_icon.svg" alt="Steam" width="48" height="48">
+                    </a>
+                    {% endif %}
+
+                    {% if game.epic_store %}
+                    <a href="https://store.epicgames.com/en-US/p/{{ game.game_slug }}">
+                        <img src="../static/epic_icon.svg" alt="Epic" width="48" height="48">
+                    </a>
+                    {% endif %}
+
+                    {% if game.nintendo_store %}
+                    <a href="https://www.nintendo.com/en-ca/store/products/{{ game.game_slug }}-switch">
+                        <img src="../static/nintendo_icon.svg" alt="Nintendo" width="48" height="48">
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Platforms -->
+                <div class="row">
+                    <div class="pt-3">
+                        <b class="fw-bold h4 pl-4">Platforms:</b>
+                        <p class="pt-3 pl-1 pr-1 d-inline">{% if game.pc %}PC{% endif %}</p>
+                        <p class="pt-3 pl-1 pr-1 d-inline">{% if game.switch %}Switch{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 pt-5">
+                <!-- Name -->
+                <div class="row justify-content-center">
+                    <u class="h1">{{ game.game_name }}</u>
+                </div>
+
+                <!-- Description -->
+                <div class="row">
+                    <b class="fw-bold h4 pt-5 p-3">Description:</b>
+                    <p class="pl-5 p-3 text-left">{{ game.game_desc }}</p>
+                    <p class="pb-3 pl-5">Developed by: {{ game.game_developer }} - Published by: {{ game.game_publisher }}</p>
+                </div>
+
+                <!-- Genres -->
+                <div class="row">
+                    <div class="pb-5">
+                        <b class="fw-bold h4 pt-5 p-3">Genres:</b>
+                        {% for genre in game.genres %}
+                            {{ genre }} 
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Release year -->
+                <div class="row">
+                    <div class="pb-5">
+                        <b class="fw-bold h4 pt-5 p-3">Release year:</b>
+                        <p class="pt-3 d-inline">{{ game.release_year }}</p>
+                    </div>
+                </div>
+
+                <!-- Rating -->
+                <div class="row">
+                    <div class="pb-5">
+                        <b class="fw-bold h4 pt-5 p-3">Rating:</b>
+                        <p class="pt-3 d-inline">{{ game.rating }}/5</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</html>
+
+{% endblock %}

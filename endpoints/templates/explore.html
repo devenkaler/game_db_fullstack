@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script>
+
+    // Ensures max-year is larger than min-year
+    // Updates max-year label
+    function checkMaxYearInput() {
+        var y_min = $("#year-min")
+        var  y_max = $("#year-max")
+
+        if (y_min.val() >= y_max.val()) {
+            y_max.val(y_min.val());
+        }
+
+        $("#year-max-label").text(y_max.val())
+    }
+
+
+    // Ensures min-year is larger than min-year
+    // Updates min-year label
+    function checkMinYearInput() {
+        var y_min = $("#year-min")
+        var  y_max = $("#year-max")
+
+        if (y_min.val() >= y_max.val()) {
+            y_min.val(y_max.val());
+        }
+
+        $("#year-min-label").text(y_min.val());
+    }
+
+
+    // Updates min-rating label
+    function updateMinRating() {
+        var rating = $("#min-rating").val();
+        $("#min-rating-label").text(rating);
+    }
+
+
+    // Toggles all genres for advanced search
+    function toggleAllGenres() {
+        var toggle = $("#genre-all").is(":checked");
+        $("#genre-inputs").find(".form-check-input").prop("checked", toggle);
+    }
+
+
+    // Toggles advanced search functionality
+    function toggleSearch() {
+        var toggle = !$("#toggle-search").is(":checked");
+        $("#advanced-search").find("input").prop("disabled", toggle);
+        $("#advanced-search").find("button").prop("disabled", toggle);
+        $("#toggle-search").prop("disabled", false);
+    }
+
+</script>
+
+
+<html>
+    <div class="container justify-content-center border border light">
+
+        <div class="justify-content-center row pb-5">
+            <p class="h1 text-center" style="font-size: 200px">Explore</p>
+        </div>
+
+        <div class="row">
+
+            <!-- Advanced search options -->
+            <div class="col-md-3 p-3 h-50 border border-light">
+
+                <form id="advanced-search">
+                    <h3 class="pb-3 pr-2 d-inline">Advanced Search</h3>
+                    <input class="p-1" type="checkbox" name="toggle_search" id="toggle-search" onclick="toggleSearch()"
+                           {% if advanced_search %} checked {% endif %}>
+                    
+                    <div class="pb-2 pt-2">
+                        <button class="btn btn-outline-primary" type="submit" method="get" {% if not advanced_search %} disabled {% endif %}>Search!</button>
+                    </div>
+
+                    <input class="form-control" form="advanced-search" name="page_num" id="page-num" value="{{ page_num }}" hidden>
+                    
+
+                    <!-- Platforms 
+                    <b>Platform</b>
+                    <div class="pb-3 pl-1">
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="pc" id="pc" 
+                            {% if pc %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="pc">PC</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="switch" id="switch"
+                            {% if switch %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="switch">Switch</label>
+                        </div>
+
+                    </div>
+                    -->
+
+                    <!-- Storefronts -->
+                    <b>Storefronts</b>
+                    <div class="pb-3 pl-1">
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="steam_store" id="steam-store"
+                                {% if steam_store %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="steam-store">Steam Store</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="epic_store" id="epic-store"
+                                {% if epic_store %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="epic-store">Epic Store</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="nintendo_store" id="nintendo-store"
+                                {% if nintendo_store %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="nintendo-store">Nintendo E-Shop</label>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Release Year -->
+                    <b>Release Year ({{ min_max_release_year[0] }}-{{ min_max_release_year[1] }})</b>
+                    <div class="pb-3 pl-1">
+
+                        Minimum year - <p class="d-inline" id="year-min-label">{{ release_year_min }}</p>
+                        <div>
+                            <input type="range" min="{{ min_max_release_year[0] }}" max="{{ min_max_release_year[1] }}" 
+                                   name="year_min" id="year-min" value="{{ release_year_min }}" oninput=checkMinYearInput()
+                                   {% if not advanced_search %} disabled {% endif %}>
+                        </div>
+
+                        Maximum year - <p class="d-inline" id="year-max-label">{{ release_year_max }}</p>
+                        <div>
+                            <input type="range" min="{{ min_max_release_year[0] }}" max="{{ min_max_release_year[1] }}" 
+                                   name="year_max" id="year-max" value="{{ release_year_max }}" oninput=checkMaxYearInput()
+                                   {% if not advanced_search %} disabled {% endif %}>
+                        </div>
+                    </div>
+
+
+                    <!-- Minimum Rating -->
+                    <b>Minimum Rating (0-5)</b>
+                    <div class="pb-3 pl-1">
+                        Rating - <p class="d-inline" id="min-rating-label">{{ min_rating }}</p>/5
+                        <div>
+                            <input type="range" min="0" max="5" name="min_rating" id="min-rating" value="{{ min_rating }}" step="0.5" 
+                                   oninput=updateMinRating() {% if not advanced_search %} disabled {% endif %}>
+                        </div>
+                    </div>
+
+
+                    <!-- Developer/ Publishers -->
+                    <b>Developer/Publishers</b>
+                    <div class="pb-3">
+                       <input class="form-control" type="text" name="game_dev_pub" id="game-dev-pub" placeholder="Team name" maxlength="50"
+                              {% if not advanced_search %} disabled {% endif %} {% if game_dev_pub != None %}value="{{ game_dev_pub }}"{% endif %}>
+                    </div>
+
+
+                    <!-- Genres -->
+                    <b>Genres</b>
+                    <div class="pb-1">
+                        <input class="check-input" type="checkbox" name="genre-all" id="genre-all"
+                               {% if genre_all %} checked {% endif %} onclick="toggleAllGenres()" {% if not advanced_search %} disabled {% endif %}>
+                        <label class="form-check-label" for="genre-all">Select All</label>
+                    </div>
+                    <div class="pb-3 pl-1" id="genre-inputs">
+                        {% for genre_name, genre_val in genres_req.items() %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="genre-{{ genre_name }}"
+                                   id="genre-{{ genre_name }}" {% if genre_val %} checked {% endif %} {% if not advanced_search %} disabled {% endif %}>
+                            <label class="form-check-label" for="genre-{{ genre_name }}">{{ genre_name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+            
+                </form>
+            </div>
+
+            <!-- Games Display -->
+            <div class="col-md-9">
+
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    {% include "_pagination.html" %}
+                </div>
+
+                <div class="row row-cols-4 p-3">
+                    {% for game in data %}
+                    <div class="col-md-4 p-1">
+                        <div class="card bg-secondary w-100 border border-light" style="height: 150px">
+                            <form id="form-{{ game.game_id }}">
+                                <input class="text" name="id" value="{{ game.game_id }}" hidden>
+                            </form>
+
+                            <!-- Game title -->
+                            <button class="card-body bg-secondary border border-light" type="submit" method="get"
+                                    form="form-{{ game.game_id }}" formaction="/Game">
+                                <p class="text-light d-inline">{{ game.game_name }}</p>
+                            </button>
+                            
+                            <!-- Footer icons -->
+                            <div class="card-footer">
+                                {% if game.steam_store %}
+                                <a href="https://store.steampowered.com/app/{{ game.steam_id }}">
+                                    <img src="../static/steam_icon.svg" alt="Steam" width="24" height="24">
+                                </a>
+                                {% endif %}
+
+                                {% if game.epic_store %}
+                                <a href="https://store.epicgames.com/en-US/p/{{ game.game_slug }}">
+                                    <img src="../static/epic_icon.svg" alt="Epic" width="24" height="24">
+                                </a>
+                                {% endif %}
+
+                                {% if game.nintendo_store %}
+                                <a href="https://www.nintendo.com/en-ca/store/products/{{ game.game_slug }}-switch">
+                                    <img src="../static/nintendo_icon.svg" alt="Nintendo" width="24" height="24">
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                <div class="row justify-content-center">
+                    {% include "_pagination.html" %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</html>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<!-- Pagination -->
+
+<script>
+    // Adds 1 to current page
+    function pageUp(max) {
+        var current_page = $("#page-num");
+        if  (max == 'False') {
+            current_page.val(parseInt(current_page.val()) + 1);
+            $("#current-page").text(current_page.val());
+            $("#advanced-search").submit();
+        }
+    }
+
+    // Subtracts 1 to current page (page-num > 1)
+    function pageDown() {
+        var current_page = $("#page-num");
+        if (current_page.val() > 1) {
+            current_page.val(parseInt(current_page.val()) - 1);
+            $("#current-page").text(current_page.val())
+            $("#advanced-search").submit()
+        }
+    }
+</script>
+
+<html >
+    <nav class="justify-content-center text-primary">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" onclick="pageDown()" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" id="current-page">{{ page_num }}</a></li>
+            <li class="page-item">
+                <a class="page-link" onclick="pageUp('{{ page_max }}')" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</html>

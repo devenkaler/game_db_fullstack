@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    
+    <!-- Navigation Header -->
+    <header>
+        {% include "_navigation.html" %}
+    </header>
+
+    <!-- Main content block -->
+    <body>
+        <div class="bg-dark text-white">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+    
+    <!-- Footer -->
+    <footer class="bg-body-tertiary text-center">
+        <div class="text-center p-3" style="background-color: #333333;">
+          <section class="mb-4">
+            <!-- Github -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #333333;"
+              role="button"
+              href="https://github.com/devenkaler"
+              ><i class="fa fa-github"></i>
+            </a>
+          </section>
+        </div>
+      </footer>
+
+</html> 
